@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!-- Declares the document type as HTML5 -->
+
+<html lang="en">
+<!-- Start of the HTML document, specifying English as the language -->
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Specifies the character encoding for the document as UTF-8 (supports a wide range of characters) -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Ensures the page is responsive, meaning it scales appropriately on different screen sizes (especially mobile devices) -->
+
+  <title>Mark Sheet Generator</title>
+  <!-- The title that appears on the browser tab -->
+
+  <style>
+    /* Internal CSS to style the webpage */
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      /* Sets up the body of the page with a specific font, background color, removes margin/padding,
+         and centers content both vertically and horizontally */
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+      /* Styles the header with a dark color, centered text, and a bottom margin */
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 400px;
+      box-sizing: border-box;
+      /* Styles the form with white background, padding, rounded corners, and shadow for a neat appearance */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      /* Styles form labels with block display (takes full width) and adds margin below */
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+      /* Styles input fields with full width, padding, and margin below */
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      /* Styles the button with green background, white text, padding, rounded corners, and pointer cursor on hover */
+    }
+
+    #markSheet {
+      margin-top: 20px;
+      text-align: center;
+      color: #333;
+      /* Styles the container for the mark sheet: margin above, centered text, and text color */
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Mark Sheet Generator</h1>
+  <!-- Main header of the page with the title "Mark Sheet Generator" -->
+
+  <form id="markForm">
+    <!-- Start of the form with an id of 'markForm' -->
+
+    <label for="usn">USN:</label>
+    <!-- Label for the "USN" input field -->
+
+    <input type="text" id="usn" name="usn" required>
+    <!-- Text input for the USN (University Serial Number), it is required to fill this field -->
+
+    <label for="cs1000">CS1000 - Fundamentals of Programming with C Practical:</label>
+    <!-- Label for the "CS1000" subject input field -->
+
+    <input type="number" id="cs1000" name="cs1000" required>
+    <!-- Numeric input for marks of "CS1000" subject, required -->
+
+    <label for="cs1100">CS1100 - Digital Systems and Computer Architecture Theory:</label>
+    <!-- Label for the "CS1100" subject input field -->
+
+    <input type="number" id="cs1100" name="cs1100" required>
+    <!-- Numeric input for marks of "CS1100" subject, required -->
+
+    <label for="cs1201">CS1201 - Data Analysis with Python Theory:</label>
+    <!-- Label for the "CS1201" subject input field -->
+
+    <input type="number" id="cs1201" name="cs1201" required>
+    <!-- Numeric input for marks of "CS1201" subject, required -->
+
+    <label for="cs1801">CS1801 - Introduction to Maths for CS Theory:</label>
+    <!-- Label for the "CS1801" subject input field -->
+
+    <input type="number" id="cs1801" name="cs1801" required>
+    <!-- Numeric input for marks of "CS1801" subject, required -->
+
+    <label for="cs1306">CS1306 - Introduction to Web Design Theory:</label>
+    <!-- Label for the "CS1306" subject input field -->
+
+    <input type="number" id="cs1306" name="cs1306" required>
+    <!-- Numeric input for marks of "CS1306" subject, required -->
+
+    <button type="button" onclick="generateMarkSheet()">Generate Mark Sheet</button>
+    <!-- Button that triggers the 'generateMarkSheet' function when clicked -->
+  </form>
+
+  <div id="markSheet"></div>
+  <!-- This is the div where the generated mark sheet will be displayed -->
+
+  <script>
+    /* JavaScript function to generate the mark sheet */
+
+    function generateMarkSheet() {
+      const form = document.getElementById("markForm");
+      const markSheet = document.getElementById("markSheet");
+
+      const usn = form.elements["usn"].value;
+      const cs1000 = parseFloat(form.elements["cs1000"].value);
+      const cs1100 = parseFloat(form.elements["cs1100"].value);
+      const cs1201 = parseFloat(form.elements["cs1201"].value);
+      const cs1801 = parseFloat(form.elements["cs1801"].value);
+      const cs1306 = parseFloat(form.elements["cs1306"].value);
+      /* Retrieves the values from the form fields, and converts numerical values to floating-point numbers */
+
+      const gradeCS1000 = getGrade(cs1000);
+      const gradeCS1100 = getGrade(cs1100);
+      const gradeCS1201 = getGrade(cs1201);
+      const gradeCS1801 = getGrade(cs1801);
+      const gradeCS1306 = getGrade(cs1306);
+      /* Calls the 'getGrade' function for each subject to get the corresponding grade based on the marks */
+
+      const markSheetContent = `
+        <h2>Mark Sheet</h2>
+        <p>USN: ${usn}</p>
+        <p>CS1000: ${cs1000} - Grade: ${gradeCS1000}</p>
+        <p>CS1100: ${cs1100} - Grade: ${gradeCS1100}</p>
+        <p>CS1201: ${cs1201} - Grade: ${gradeCS1201}</p>
+        <p>CS1801: ${cs1801} - Grade: ${gradeCS1801}</p>
+        <p>CS1306: ${cs1306} - Grade: ${gradeCS1306}</p>
+      `;
+      /* Generates the HTML content for displaying the mark sheet, including USN, marks, and grades for each subject */
+
+      markSheet.innerHTML = markSheetContent;
+      /* Sets the innerHTML of the 'markSheet' div to display the generated content */
+    }
+
+    function getGrade(marks) {
+      // Function to determine the grade based on the marks
+
+      if (marks >= 90) {
+        return "O: Outstanding";
+      } else if (marks >= 80) {
+        return "A+: Excellent";
+      } else if (marks >= 70) {
+        return "A: Very Good";
+      } else if (marks >= 60) {
+        return "B+: Good";
+      } else if (marks >= 50) {
+        return "Above Average";
+      } else if (marks >= 45) {
+        return "C: Average";
+      } else if (marks >= 40) {
+        return "P: Pass";
+      } else {
+        return "F: Fail";
+      }
+      /* Determines the grade based on predefined criteria for different ranges of marks */
+    }
+  </script>
+</body>
+
+</html>
+<!-- End of HTML document -->
